@@ -97,7 +97,7 @@
             transition: color 0.3s ease;
         }
 
-        /* 鼠标悬停在整栏时，标题颜色微调 */
+        /* 鼠标悬停在整栏时标题变色，提示用户 */
         section:hover h2 {
             color: #8b459c;
         }
@@ -113,11 +113,10 @@
             transform: translateY(-15px);
             overflow: hidden;
             
-            /* 关键：必须显式设置 padding 为 0，否则高度无法完全归零 */
             padding: 0 25px; 
             margin-top: 0;
 
-            /* 贝塞尔曲线过渡，让向下滑动更丝滑 */
+            /* 贝塞尔曲线过渡 */
             transition: 
                 max-height 0.5s cubic-bezier(0.25, 1, 0.5, 1),
                 opacity 0.4s ease,
@@ -126,13 +125,17 @@
                 margin-top 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* 核心：鼠标悬停在 section 区域时触发展开 */
-        section:hover .card {
-            max-height: 2000px; /* 展开后的最大高度（因为有展开项，这里设高一些） */
+        /* 
+           重点改动：不再使用 section:hover 触发，
+           而是改用 JS 动态添加的 .active 类来触发展开。
+           一旦展开，鼠标移走也不会消失。
+        */
+        section.active .card {
+            max-height: 2000px; /* 展开后的最大高度 */
             opacity: 1;
             transform: translateY(0);
-            padding: 25px; /* 恢复原本的上下内边距 */
-            margin-top: 20px; /* 恢复与标题的间距 */
+            padding: 25px; 
+            margin-top: 20px; 
         }
 
         /* ===== Achievements Details Style ===== */
@@ -143,10 +146,9 @@
         }
 
         .achievement-item:last-child {
-            border-bottom: none; /* 最后一项去掉下划线 */
+            border-bottom: none;
         }
 
-        /* 鼠标悬停在整行时，文字颜色稍微变深，提示可点击 */
         .achievement-item summary {
             font-size: 18px;
             font-weight: bold;
@@ -160,17 +162,15 @@
             color: #6B3078;
         }
 
-        /* 展开后的内容容器 */
         .achievement-content {
             padding: 15px 10px 5px 10px;
-            animation: fadeIn 0.3s ease-out; /* 展开时淡入 */
+            animation: fadeIn 0.3s ease-out;
         }
 
-        /* 用于展示的图片和视频样式，保证不超出卡片宽度 */
         .achievement-media {
             max-width: 100%;
             width: 100%;
-            max-height: 450px; /* 限制最大高度，避免图片太大撑满屏幕 */
+            max-height: 450px;
             object-fit: contain;
             border-radius: 8px;
             margin-top: 10px;
@@ -178,7 +178,6 @@
             display: block;
         }
 
-        /* 文件下载/打开按钮的微调 */
         .file-btn {
             margin-top: 10px;
             padding: 8px 18px;
@@ -207,7 +206,6 @@
             margin: 5px;
         }
 
-        /* 简单的淡入动画 */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-5px); }
             to { opacity: 1; transform: translateY(0); }
@@ -255,7 +253,7 @@
             </div>
         </div>
 
-        <!-- About (Hover to Slide Down) -->
+        <!-- About (Hover to Slide Down, Stay Open) -->
         <section>
             <h2>About Me</h2>
             <div class="card">
@@ -265,7 +263,7 @@
             </div>
         </section>
 
-        <!-- Education (Hover to Slide Down) -->
+        <!-- Education (Hover to Slide Down, Stay Open) -->
         <section>
             <h2>Education</h2>
             <div class="card">
@@ -280,7 +278,7 @@
             </div>
         </section>
 
-        <!-- Interests (Hover to Slide Down) -->
+        <!-- Interests (Hover to Slide Down, Stay Open) -->
         <section>
             <h2>Current Interests</h2>
             <div class="card">
@@ -291,7 +289,7 @@
             </div>
         </section>
 
-        <!-- Timeline (Hover to Slide Down) -->
+        <!-- Timeline (Hover to Slide Down, Stay Open) -->
         <section>
             <h2>Timeline</h2>
             <div class="card">
@@ -306,7 +304,7 @@
             </div>
         </section>
 
-        <!-- Achievements (Hover to Slide Down & Click to Expand) -->
+        <!-- Achievements (Hover to Slide Down, Stay Open & Click to Expand) -->
         <section>
             <h2>Selected Achievements</h2>
             <div class="card">
@@ -316,9 +314,7 @@
                     <summary>Third Prize - Quadruped Robot Competition 2026</summary>
                     <div class="achievement-content">
                         <p>📸 参赛实物图与演示视频：</p>
-                        <!-- 图片展示 -->
                         <img src="dog_QuadrupedRobotCompetition2026.jpg" alt="Quadruped Robot" class="achievement-media">
-                        <!-- 视频播放 -->
                         <video class="achievement-media" controls>
                             <source src="dog_QuadrupedRobotCompetition2026.mp4" type="video/mp4">
                             Your browser does not support the video tag.
@@ -331,19 +327,17 @@
                     <summary>S Award - Mathematical Contest in Modeling</summary>
                     <div class="achievement-content">
                         <p>📄 证书与参赛论文：</p>
-                        <!-- 指向 PDF 文件 -->
                         <a class="btn secondary file-btn" href="SAward_MathematicalContestinModeling.pdf" target="_blank">
                             📂 点击在新窗口打开 / 下载 PDF 文件
                         </a>
                     </div>
                 </details>
 
-                <!-- 奖项 3 (已改名) -->
+                <!-- 奖项 3 -->
                 <details class="achievement-item">
                     <summary>Second Prize-the 9th "Starry Dream Classroom" Volunteer Teaching Presentation Competition</summary>
                     <div class="achievement-content">
                         <p>📸 获奖证书 / 现场照片：</p>
-                        <!-- 图片展示 -->
                         <img src="SecondPrize_xingmeng.jpg" alt="Second Prize Xingmeng" class="achievement-media">
                     </div>
                 </details>
@@ -351,7 +345,7 @@
             </div>
         </section>
 
-        <!-- Contact (Hover to Slide Down) -->
+        <!-- Contact (Hover to Slide Down, Stay Open) -->
         <section>
             <h2>Contact</h2>
             <div class="card">
@@ -362,6 +356,15 @@
         </section>
 
     </div>
+
+    <!-- JS 脚本：监听鼠标悬停事件，使卡片保持展开状态 -->
+    <script>
+        document.querySelectorAll('section').forEach(section => {
+            section.addEventListener('mouseenter', () => {
+                section.classList.add('active');
+            });
+        });
+    </script>
 
 </body>
 </html>
