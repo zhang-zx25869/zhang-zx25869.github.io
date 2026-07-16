@@ -97,7 +97,7 @@
             transition: color 0.3s ease;
         }
 
-        /* 鼠标悬停在整栏时，标题颜色微调，给予用户视觉反馈 */
+        /* 鼠标悬停在整栏时，标题颜色微调 */
         section:hover h2 {
             color: #8b459c;
         }
@@ -128,11 +128,61 @@
 
         /* 核心：鼠标悬停在 section 区域时触发展开 */
         section:hover .card {
-            max-height: 800px; /* 展开后的最大高度，需大于内容实际高度 */
+            max-height: 2000px; /* 展开后的最大高度（因为有展开项，这里设高一些） */
             opacity: 1;
             transform: translateY(0);
             padding: 25px; /* 恢复原本的上下内边距 */
             margin-top: 20px; /* 恢复与标题的间距 */
+        }
+
+        /* ===== Achievements Details Style ===== */
+        .achievement-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+            cursor: pointer;
+        }
+
+        .achievement-item:last-child {
+            border-bottom: none; /* 最后一项去掉下划线 */
+        }
+
+        /* 鼠标悬停在整行时，文字颜色稍微变深，提示可点击 */
+        .achievement-item summary {
+            font-size: 18px;
+            font-weight: bold;
+            color: #444;
+            outline: none;
+            user-select: none;
+            transition: color 0.2s ease;
+        }
+
+        .achievement-item summary:hover {
+            color: #6B3078;
+        }
+
+        /* 展开后的内容容器 */
+        .achievement-content {
+            padding: 15px 10px 5px 10px;
+            animation: fadeIn 0.3s ease-out; /* 展开时淡入 */
+        }
+
+        /* 用于展示的图片和视频样式，保证不超出卡片宽度 */
+        .achievement-media {
+            max-width: 100%;
+            width: 100%;
+            max-height: 450px; /* 限制最大高度，避免图片太大撑满屏幕 */
+            object-fit: contain;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            display: block;
+        }
+
+        /* 文件下载/打开按钮的微调 */
+        .file-btn {
+            margin-top: 10px;
+            padding: 8px 18px;
+            font-size: 14px;
         }
 
         /* ===== Timeline ===== */
@@ -157,6 +207,12 @@
             margin: 5px;
         }
 
+        /* 简单的淡入动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* ===== Mobile ===== */
         @media(max-width:800px) {
             .hero {
@@ -167,17 +223,6 @@
             .hero h1 {
                 font-size: 40px;
             }
-            
-            /* 移动端设备上如果没有鼠标悬停，可以默认直接展开，或者允许点击展开。
-               这里保留悬停（触摸也会触发 hover），但如果你希望移动端直接显示，可以取消注释下面这段：
-            .card {
-                max-height: none;
-                opacity: 1;
-                transform: none;
-                padding: 25px;
-                margin-top: 20px;
-            }
-            */
         }
     </style>
 </head>
@@ -194,7 +239,7 @@
                 <div class="subtitle">
                     @ Tsinghua University
                     <br>
-                    Major: Automation <!-- 修改一：已简化为 Major: Automation -->
+                    Major: Automation
                 </div>
 
                 <p class="interests">
@@ -261,15 +306,48 @@
             </div>
         </section>
 
-        <!-- Achievements (Hover to Slide Down) -->
+        <!-- Achievements (Hover to Slide Down & Click to Expand) -->
         <section>
             <h2>Selected Achievements</h2>
             <div class="card">
-                <ul>
-                    <li>Third Prize - Quadruped Robot Competition 2026</li>
-                    <li>S Award - Mathematical Contest in Modeling</li>
-                    <li>Most Popular Teacher Award - Xingmeng Classroom</li>
-                </ul>
+                
+                <!-- 奖项 1 -->
+                <details class="achievement-item">
+                    <summary>Third Prize - Quadruped Robot Competition 2026</summary>
+                    <div class="achievement-content">
+                        <p>📸 参赛实物图与演示视频：</p>
+                        <!-- 图片展示 -->
+                        <img src="dog_QuadrupedRobotCompetition2026.jpg" alt="Quadruped Robot" class="achievement-media">
+                        <!-- 视频播放 -->
+                        <video class="achievement-media" controls>
+                            <source src="dog_QuadrupedRobotCompetition2026.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </details>
+
+                <!-- 奖项 2 -->
+                <details class="achievement-item">
+                    <summary>S Award - Mathematical Contest in Modeling</summary>
+                    <div class="achievement-content">
+                        <p>📄 证书与参赛论文：</p>
+                        <!-- 指向 PDF 文件 -->
+                        <a class="btn secondary file-btn" href="SAward_MathematicalContestinModeling.pdf" target="_blank">
+                            📂 点击在新窗口打开 / 下载 PDF 文件
+                        </a>
+                    </div>
+                </details>
+
+                <!-- 奖项 3 (已改名) -->
+                <details class="achievement-item">
+                    <summary>Second Prize-the 9th "Starry Dream Classroom" Volunteer Teaching Presentation Competition</summary>
+                    <div class="achievement-content">
+                        <p>📸 获奖证书 / 现场照片：</p>
+                        <!-- 图片展示 -->
+                        <img src="SecondPrize_xingmeng.jpg" alt="Second Prize Xingmeng" class="achievement-media">
+                    </div>
+                </details>
+
             </div>
         </section>
 
